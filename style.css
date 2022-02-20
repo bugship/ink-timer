@@ -1,0 +1,8 @@
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  max-width: 420px; margin: 2.5rem auto; text-align: center;
+  color: #222;
+}
+#display { font-size: 3.5rem; margin: 1.2rem 0; }
+button { margin: 0.25rem; padding: 0.5rem 0.9rem; font-size: 1rem; }
+#status { color: #666; }
