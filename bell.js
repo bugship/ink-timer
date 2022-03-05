@@ -1,5 +1,5 @@
 /**
- * bell.js — mains answer timers (7/10/15)
+ * bell.js — practice answer timers (7/10/15)
  */
 (function () {
   var handle = null;

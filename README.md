@@ -1,9 +1,7 @@
-# Answer Bell
+# Ink Timer
 
-Browser timer for **UPSC mains answer writing**.
-
-Presets: 7 min · 10 min · 15 min. When it rings, pens down (theoretically).
+Browser timer for timed writing practice: 7 / 10 / 15 minute presets.
 
 Open `index.html`.
 
-MIT · 2022
+MIT · practice project
