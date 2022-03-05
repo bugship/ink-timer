@@ -1,7 +1,13 @@
 # Ink Timer
 
-Browser timer for timed writing practice: 7 / 10 / 15 minute presets.
+Browser timer for timed writing: 7 / 10 / 15 / 25 minute presets, start/pause/reset.
 
-Open `index.html`.
+## Run
 
-MIT · practice project
+```bash
+open index.html
+```
+
+## License
+
+MIT

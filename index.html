@@ -2,20 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Answer Bell</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ink Timer</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0f0f12; color: #f5f5f5; text-align: center; margin: 0; min-height: 100vh; display: grid; place-items: center; }
+    h1 { font-weight: 600; margin-bottom: 0.25rem; }
+    #display { font-variant-numeric: tabular-nums; font-size: 4rem; margin: 1rem 0; letter-spacing: 0.04em; }
+    .row { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+    button { background: #222; color: #fff; border: 1px solid #444; border-radius: 8px; padding: 0.6rem 1rem; cursor: pointer; font-size: 1rem; }
+    button:hover { background: #2c2c2c; }
+    button.primary { background: #3d5afe; border-color: #3d5afe; }
+    #status { color: #999; min-height: 1.2em; margin-top: 0.75rem; }
+  </style>
 </head>
 <body>
-  <h1>Answer Bell</h1>
-  <p>Pick a duration. Write like the clock is a exam invigilator.</p>
-  <div class="presets">
-    <button data-m="7">7 min</button>
-    <button data-m="10">10 min</button>
-    <button data-m="15">15 min</button>
-  </div>
-  <div id="display">00:00</div>
-  <button id="stop">Stop</button>
-  <p id="status">Idle</p>
-  <script src="bell.js"></script>
+  <main>
+    <h1>Ink Timer</h1>
+    <p>Timed writing practice</p>
+    <div id="display">07:00</div>
+    <div class="row">
+      <button data-m="7">7 min</button>
+      <button data-m="10">10 min</button>
+      <button data-m="15">15 min</button>
+      <button data-m="25">25 min</button>
+    </div>
+    <div class="row" style="margin-top:0.75rem">
+      <button class="primary" id="start">Start</button>
+      <button id="pause">Pause</button>
+      <button id="reset">Reset</button>
+    </div>
+    <div id="status"></div>
+  </main>
+  <script>
+    let total = 7 * 60, left = total, timer = null;
+    const display = document.getElementById('display');
+    const status = document.getElementById('status');
+    function fmt(s) {
+      const m = Math.floor(s / 60), r = s % 60;
+      return String(m).padStart(2,'0') + ':' + String(r).padStart(2,'0');
+    }
+    function render() { display.textContent = fmt(left); }
+    function setMinutes(m) {
+      stop();
+      total = m * 60; left = total; status.textContent = '';
+      render();
+    }
+    function tick() {
+      if (left <= 0) {
+        stop();
+        status.textContent = 'Time is up — stop writing.';
+        try { new AudioContext(); } catch (_) {}
+        return;
+      }
+      left -= 1;
+      render();
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    document.querySelectorAll('button[data-m]').forEach(b => b.onclick = () => setMinutes(+b.dataset.m));
+    document.getElementById('start').onclick = () => {
+      if (timer) return;
+      if (left <= 0) left = total;
+      status.textContent = 'Writing…';
+      timer = setInterval(tick, 1000);
+    };
+    document.getElementById('pause').onclick = () => { stop(); status.textContent = 'Paused'; };
+    document.getElementById('reset').onclick = () => setMinutes(total / 60);
+    render();
+  </script>
 </body>
 </html>
